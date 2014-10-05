@@ -31,6 +31,7 @@
 	<p:option name="status-dir-uri" select="concat($debug-dir-uri, '/status')"/>
 	
   <p:import href="http://transpect.le-tex.de/xproc-util/store-debug/store-debug.xpl"/>
+	<p:import href="http://transpect.le-tex.de/book-conversion/converter/xpl/simple-progress-msg.xpl"/>
   
 	<letex:simple-progress-msg file="hub2dbk-start.txt">
 		<p:input port="msgs">
