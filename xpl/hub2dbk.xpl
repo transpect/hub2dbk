@@ -27,8 +27,22 @@
   
   <p:option name="debug" select="'yes'"/> 
   <p:option name="debug-dir-uri" select="'debug'"/>
-  
+	<p:option name="progress" select="concat($debug-dir-uri, '/status')"/>
+	<p:option name="status-dir-uri" select="concat($debug-dir-uri, '/status')"/>
+	
   <p:import href="http://transpect.le-tex.de/xproc-util/store-debug/store-debug.xpl"/>
+  
+	<letex:simple-progress-msg file="hub2dbk-start.txt">
+		<p:input port="msgs">
+			<p:inline>
+				<c:messages>
+					<c:message xml:lang="en">Start Hub to Docbook conversion.</c:message>
+					<c:message xml:lang="de">Beginne Konvertierung Hub nach Docbook.</c:message>
+				</c:messages>
+			</p:inline>
+		</p:input>
+		<p:with-option name="status-dir-uri" select="$status-dir-uri"/>
+	</letex:simple-progress-msg>
   
   <p:xslt>
     <p:documentation>
@@ -46,5 +60,17 @@
     <p:with-option name="active" select="$debug"/>
     <p:with-option name="base-uri" select="$debug-dir-uri"/>
   </letex:store-debug>
+	
+	<letex:simple-progress-msg file="hub2dbk-finished.txt">
+		<p:input port="msgs">
+			<p:inline>
+				<c:messages>
+					<c:message xml:lang="en">Successfully finished Hub to Docbook conversion.</c:message>
+					<c:message xml:lang="de">Konvertierung Hub nach Docbook erfolgreich abgeschlossen.</c:message>
+				</c:messages>
+			</p:inline>
+		</p:input>
+		<p:with-option name="status-dir-uri" select="$status-dir-uri"/>
+	</letex:simple-progress-msg>
   
 </p:declare-step>
