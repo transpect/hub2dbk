@@ -53,7 +53,7 @@
       <p:empty/>
     </p:input>
     <p:input port="stylesheet">
-      <p:document href="../xsl/hub2docbook.xsl"/>
+      <p:document href="../xsl/hub2dbk.xsl"/>
     </p:input>
   </p:xslt>
   

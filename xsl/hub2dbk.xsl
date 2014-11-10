@@ -5,16 +5,24 @@
   xmlns:cx="http://xmlcalabash.com/ns/extensions"
   xmlns:hub="http://www.le-tex.de/namespace/hub"
   xmlns:css="http://www.w3.org/1996/css"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns="http://docbook.org/ns/docbook"
-  exclude-result-prefixes="xs cx css"
+  exclude-result-prefixes="xs cx css hub"
   xpath-default-namespace="http://docbook.org/ns/docbook"
   version="2.0">
   
   <!-- this template expects a flat or evolved hub document and converts it to docbook 5.0 -->
   
-  <xsl:template match="processing-instruction()[name() eq 'xml-model']"/>  
+  <!-- remove hub xml-model -->
+  <xsl:template match="//processing-instruction()" priority="100"/>
+    
+  
   <!-- remove whitespace before root element-->
   <xsl:template match="/text()"/> 
+  
+  <xsl:template match="/">
+    <xsl:apply-templates/>
+  </xsl:template>
   
   <xsl:template match="/hub">
     <!-- xml-models for Docbook 5.0 -->
@@ -25,7 +33,7 @@
       <xsl:apply-templates select="@xml:base"/>
       <!-- make first section title to book title if only one top-level section exists -->
       <xsl:if test="section[1 and last()]">
-        <xsl:copy-of select="section/title"/>
+        <xsl:apply-templates select="section/title"/>
       </xsl:if>
       <xsl:apply-templates/>
     </book>
@@ -67,7 +75,10 @@
   
   <!-- patch filerefs -->
   <xsl:template match="imagedata/@fileref">
-    <xsl:attribute name="fileref" select="replace(., 'container:word/media/', '')"/>
+    <xsl:attribute name="fileref" select="concat(
+      /hub/info/keywordset[@role eq 'hub']/keyword[@role eq 'source-dir-uri'],
+      replace(., '^container:', '')
+      )"/>
   </xsl:template>
   
   <!-- remove invalid structurs -->
@@ -85,7 +96,7 @@
   <!-- identity template -->
   <xsl:template match="@*|*">
     <xsl:copy copy-namespaces="no">
-      <xsl:apply-templates select="@*, node() except processing-instruction()"/>
+      <xsl:apply-templates select="@*, node()"/>
     </xsl:copy>
   </xsl:template>
   
