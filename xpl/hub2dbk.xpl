@@ -13,10 +13,17 @@
     drops hub-specific elements and CSS attributes.
   </p:documentation>
   
-  <p:input port="source">
+  <p:input port="source" primary="true">
     <p:documentation>
       The source port expects a flat or evolved hub document.
     </p:documentation>
+  </p:input>
+  
+  <p:input port="stylesheet" primary="false">
+    <p:documentation>
+      XSLT stylesheet for dynamic hub2dbk conversion.
+    </p:documentation>
+    <p:document href="../xsl/hub2dbk.xsl"/>
   </p:input>
 	
   <p:output port="result">
@@ -53,7 +60,7 @@
       <p:empty/>
     </p:input>
     <p:input port="stylesheet">
-      <p:document href="../xsl/hub2dbk.xsl"/>
+      <p:pipe port="stylesheet" step="hub2dbk-convert"/>
     </p:input>
   </p:xslt>
   
