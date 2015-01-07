@@ -33,9 +33,8 @@
   </p:output>
   
   <p:option name="debug" select="'yes'"/> 
-  <p:option name="debug-dir-uri" select="'debug'"/>
-	<p:option name="progress" select="concat($debug-dir-uri, '/status')"/>
-	<p:option name="status-dir-uri" select="concat($debug-dir-uri, '/status')"/>
+  <p:option name="debug-dir-uri" select="'debug'"/>	
+	<p:option name="status-dir-uri" select="'status'"/>
 	
   <p:import href="http://transpect.le-tex.de/xproc-util/store-debug/store-debug.xpl"/>
 	<p:import href="http://transpect.le-tex.de/book-conversion/converter/xpl/simple-progress-msg.xpl"/>

@@ -10,15 +10,15 @@
   exclude-result-prefixes="xs cx css hub"
   xpath-default-namespace="http://docbook.org/ns/docbook"
   version="2.0">
-  
-  <!-- this template expects a flat or evolved hub document and converts it to docbook 5.0 -->
-  
-  <xsl:variable name="multiple-top-level-headlines" select="count(/hub/section) gt 1" as="xs:boolean"/>
-  
-  <!-- remove hub xml-model -->
+    
+  <!--  *
+        * remove top-level xml-model declarations
+        * -->
   <xsl:template match="//processing-instruction()" priority="100"/>
   
-  <!-- remove whitespace before root element-->
+  <!--  *
+        * remove whitespace before root element
+        * -->
   <xsl:template match="/text()"/> 
   
   <xsl:template match="/">
@@ -26,46 +26,13 @@
   </xsl:template>
   
   <xsl:template match="/hub">
-    <!-- xml-models for Docbook 5.0 -->
     <xsl:processing-instruction name="xml-model">href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"</xsl:processing-instruction>
-    <!-- rename hub to book element, drop atts except @xml:base -->
-    <xsl:choose>
-      <xsl:when test="$multiple-top-level-headlines">
-        <book>
-          <xsl:apply-templates select="@*, 
-            /hub/info
-            /hub/section[1]/title,
-            node() except (/hub/section[1]/title[1])
-            "/>
-        </book>
-      </xsl:when>
-      <xsl:otherwise>
-        <xsl:apply-templates select="* except info"/>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  
-  <xsl:template match="/hub/section">
-    <xsl:choose>
-      <xsl:when test="$multiple-top-level-headlines">
-        <book>
-          <xsl:apply-templates select="/hub/@xml:base, @*, node()"/>
-        </book>
-      </xsl:when>
-      <xsl:otherwise>
-        <book>
-          <xsl:apply-templates select="title, /hub/info, node() except title"/>  
-        </book>
-      </xsl:otherwise>
-    </xsl:choose>
-  </xsl:template>
-  
-  <xsl:template match="/hub/section/section">
-    <xsl:element name="{if($multiple-top-level-headlines) then 'section' else 'chapter'}">
+    <chapter>
+      <title></title>
       <xsl:apply-templates/>
-    </xsl:element>
+    </chapter>
   </xsl:template>
-  
+    
   <xsl:template match="phrase">
     <emphasis role="{(@css:font-style, @css:font-weight, @css:text-decoration-line)[1]}">
       <xsl:apply-templates select="@*, node()"/>
