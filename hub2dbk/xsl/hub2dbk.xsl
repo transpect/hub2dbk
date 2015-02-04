@@ -69,7 +69,7 @@
   
   <xsl:template match="css:*|@css:*"/>
   
-  <xsl:template match="@hub:*|@renderas|@srcpath"/>  
+  <xsl:template match="@hub:*|@renderas"/>  
   
   <xsl:template match="@role[. eq 'hub:identifier']">
     <xsl:attribute name="role" select="'identifier'"/>
@@ -77,6 +77,10 @@
   
   <xsl:template match="br">
     <xsl:text>&#xa;</xsl:text>
+  </xsl:template>
+  
+  <xsl:template match="tabs">
+    <xsl:apply-templates/>
   </xsl:template>
   
   <xsl:template match="tab">
