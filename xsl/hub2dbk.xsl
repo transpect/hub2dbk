@@ -87,7 +87,7 @@
 	<xsl:template match="@hub:*|@renderas"/>
 
 	<xsl:template match="@role[. eq 'hub:identifier']">
-		<xsl:attribute name="role" select="'identifier'"/>
+	  <xsl:attribute name="role" select="'hub_identifier'"/>
 	</xsl:template>
 
 	<xsl:template match="br">
