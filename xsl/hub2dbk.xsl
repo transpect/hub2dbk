@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:hub="http://www.le-tex.de/namespace/hub"
+	xmlns:cx="http://xmlcalabash.com/ns/extensions" xmlns:hub="http://transpect.io/hub"
 	xmlns:css="http://www.w3.org/1996/css" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://docbook.org/ns/docbook"
-	exclude-result-prefixes="xs cx css hub" xpath-default-namespace="http://docbook.org/ns/docbook" version="2.0">
+	exclude-result-prefixes="xs cx css hub xlink" xpath-default-namespace="http://docbook.org/ns/docbook" version="2.0">
+
+	<xsl:param name="top-level-element-name" select="'chapter'" as="xs:string"/>
 
 	<!--  *
         * remove top-level xml-model declarations
@@ -20,10 +22,12 @@
 
 	<xsl:template match="/hub">
 		<xsl:processing-instruction name="xml-model">href="http://docbook.org/xml/5.0/rng/docbook.rng" schematypens="http://relaxng.org/ns/structure/1.0"</xsl:processing-instruction>
-		<chapter>
-			<title/>
+		<xsl:element name="{$top-level-element-name}">
+			<xsl:if test="not(title | info/title)">
+				<title/>	
+			</xsl:if>
 			<xsl:apply-templates/>
-		</chapter>
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="phrase">

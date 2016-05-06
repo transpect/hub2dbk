@@ -2,11 +2,10 @@
 <p:declare-step
   xmlns:p="http://www.w3.org/ns/xproc"
   xmlns:c="http://www.w3.org/ns/xproc-step"
-  xmlns:letex="http://www.le-tex.de/namespace"
-  xmlns:hub2dbk="http://www.le-tex.de/namespace/hub2dbk"
+  xmlns:tr="http://transpect.io"
   version="1.0"
   name="hub2dbk-convert"
-  type="hub2dbk:convert">
+  type="tr:hub2dbk">
   
   <p:documentation>
     This step expects a hub document and converts it to Docbook 5.0. Generally, the step
@@ -36,10 +35,12 @@
   <p:option name="debug-dir-uri" select="'debug'"/>	
 	<p:option name="status-dir-uri" select="'status'"/>
 	
-  <p:import href="http://transpect.le-tex.de/xproc-util/store-debug/store-debug.xpl"/>
-	<p:import href="http://transpect.le-tex.de/book-conversion/converter/xpl/simple-progress-msg.xpl"/>
+	<p:option name="top-level-element-name" select="'chapter'"/>
+	
+  <p:import href="http://transpect.io/xproc-util/store-debug/xpl/store-debug.xpl"/>
+	<p:import href="http://transpect.io/xproc-util/simple-progress-msg/xpl/simple-progress-msg.xpl"/>
   
-	<letex:simple-progress-msg file="hub2dbk-start.txt">
+	<tr:simple-progress-msg file="hub2dbk-start.txt">
 		<p:input port="msgs">
 			<p:inline>
 				<c:messages>
@@ -49,7 +50,7 @@
 			</p:inline>
 		</p:input>
 		<p:with-option name="status-dir-uri" select="$status-dir-uri"/>
-	</letex:simple-progress-msg>
+	</tr:simple-progress-msg>
   
   <p:xslt>
     <p:documentation>
@@ -61,14 +62,15 @@
     <p:input port="stylesheet">
       <p:pipe port="stylesheet" step="hub2dbk-convert"/>
     </p:input>
+  	<p:with-param name="top-level-element-name" select="$top-level-element-name"/>
   </p:xslt>
   
-  <letex:store-debug pipeline-step="hub2dbk/hub2dbk">
+  <tr:store-debug pipeline-step="hub2dbk/hub2dbk">
     <p:with-option name="active" select="$debug"/>
     <p:with-option name="base-uri" select="$debug-dir-uri"/>
-  </letex:store-debug>
+  </tr:store-debug>
 	
-	<letex:simple-progress-msg file="hub2dbk-finished.txt">
+	<tr:simple-progress-msg file="hub2dbk-finished.txt">
 		<p:input port="msgs">
 			<p:inline>
 				<c:messages>
@@ -78,6 +80,6 @@
 			</p:inline>
 		</p:input>
 		<p:with-option name="status-dir-uri" select="$status-dir-uri"/>
-	</letex:simple-progress-msg>
+	</tr:simple-progress-msg>
   
 </p:declare-step>
